@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="OrderedProductCreateDlg" widgetVar="OrderedProductCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateOrderedProductTitle}">
+            <h:form id="OrderedProductCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{orderedProductController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateOrderedProductLabel_quantity}" for="quantity" />
+                        <p:inputText id="quantity" value="#{orderedProductController.selected.quantity}" title="#{bundle.CreateOrderedProductTitle_quantity}" required="true" requiredMessage="#{bundle.CreateOrderedProductRequiredMessage_quantity}"/>
+                        <p:outputLabel value="#{bundle.CreateOrderedProductLabel_product1}" for="product1" />
+                        <p:selectOneMenu id="product1" value="#{orderedProductController.selected.product1}" required="true" requiredMessage="#{bundle.EditOrderedProductRequiredMessage_product1}">
+                            <f:selectItems value="#{productController.itemsAvailableSelectOne}"
+                                           var="product1Item"
+                                           itemValue="#{product1Item}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateOrderedProductLabel_customerOrder1}" for="customerOrder1" />
+                        <p:selectOneMenu id="customerOrder1" value="#{orderedProductController.selected.customerOrder1}" required="true" requiredMessage="#{bundle.EditOrderedProductRequiredMessage_customerOrder1}">
+                            <f:selectItems value="#{customerOrderController.itemsAvailableSelectOne}"
+                                           var="customerOrder1Item"
+                                           itemValue="#{customerOrder1Item}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{orderedProductController.create}" value="#{bundle.Save}" update="display,:OrderedProductListForm:datalist,:growl" oncomplete="handleSubmit(args,'OrderedProductCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="OrderedProductCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>
